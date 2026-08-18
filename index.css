@@ -1,0 +1,848 @@
+/* 
+   THE ETHEREAL EXECUTIVE - DESIGN SYSTEM 
+   Focused on Bento Grid, Glassmorphism & High-Fidelity Interactivity
+*/
+
+:root {
+    --bg-primary: #050505;
+    /* Preto translucido, nao branco translucido.
+       Com o fundo cinematografico em video atras, um veu de 4% de BRANCO
+       clareava os cards e derrubava o contraste do texto cinza para 2.8:1
+       (minimo AA e 4.5:1). Preto a 55% escurece o que estiver atras e o
+       texto volta a passar, mantendo a translucidez do efeito vidro. */
+    --bg-secondary: rgba(8, 11, 16, 0.55);
+    --bg-overlay: rgba(0, 0, 0, 0.8);
+    --text-primary: #ffffff;
+    --text-secondary: #d1d1d1;
+    /* Era #888888. Com o fundo cinematografico em video, esse cinza caia
+       para ~2.5:1 de contraste em varios rotulos (minimo AA e 4.5:1).
+       Clareado ate passar sem virar branco puro e achatar a hierarquia. */
+    --text-muted: #aab3c0;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(24px) saturate(180%);
+    --tech-glow: rgba(6, 182, 212, 0.3);
+    --accent-green: #10b981;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f8fafc;
+    --bg-secondary: rgba(0, 0, 0, 0.03);
+    --bg-overlay: rgba(255, 255, 255, 0.9);
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --glass-blur: blur(16px);
+    --tech-glow: rgba(6, 182, 212, 0.15);
+}
+
+* {
+    scroll-behavior: smooth;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Montserrat', sans-serif;
+    overscroll-behavior-y: none; /* Disable pull-to-refresh feel */
+}
+
+button, a {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* Theme Semantic Classes */
+.text-theme-primary { color: var(--text-primary) !important; }
+.text-theme-secondary { color: var(--text-secondary) !important; }
+.text-theme-muted { color: var(--text-muted) !important; }
+.bg-theme-secondary { background: var(--bg-secondary) !important; }
+.border-theme-color { border-color: var(--border-color) !important; }
+
+@media (min-width: 768px) {
+    body {
+        padding-top: 0;
+    }
+}
+
+h1, h2, h3, h4, .font-tech {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Glassmorphism Card (Apple Style) */
+.glass-card {
+    background: var(--bg-secondary);
+    /* backdrop-filter removido para evitar bugs de GPU no Android Chrome.
+       ATENCAO: havia aqui um prefixo -webkit- seguido de um comentario na
+       mesma linha. Isso e CSS malformado: o parser engolia a declaracao
+       border logo abaixo e os cards ficavam sem borda nenhuma.
+       Nao reintroduzir prefixo solto sem valor. */
+    border: 1px solid var(--border-color);
+    border-radius: 2rem;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+}
+
+.glass-card:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    transform: translateY(-8px) scale(1.01);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
+.glass-button {
+    background: rgba(255, 255, 255, 0.05);
+    /* backdrop-filter removido para evitar GPU bugs */
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+/* Profile Photo Flip */
+.flip-container {
+    perspective: 1000px;
+}
+
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.flip-container:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50%;
+}
+
+.flip-back {
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+/* Status Dot Pulse */
+.status-dot {
+    width: 14px;
+    height: 14px;
+    background: var(--accent-green);
+    border-radius: 50%;
+}
+
+.status-dot::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Skill Bars */
+.skill-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #06b6d4, #22d3ee);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tech-badge {
+    padding: 0.4rem 0.8rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+}
+
+.cert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.45rem 0.85rem;
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cert-badge:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.5);
+    color: var(--text-primary);
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+    animation: float 8s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+/* Toast Styling */
+.toast {
+    position: fixed;
+    bottom: 6.5rem; /* Above bottom nav */
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(255, 255, 255, 0.1);
+    /* backdrop-filter removido para evitar GPU bugs */
+    border: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    z-index: 1000;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+@media (min-width: 768px) {
+    .toast {
+        bottom: 2.5rem;
+    }
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+
+/* Typing Effect Cursor */
+.typing-text::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: var(--tech-400);
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Particles Overlay */
+#particles-js {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Web App UI Components */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.05);
+    /* backdrop-filter removido para evitar GPU bugs */
+    -webkit-/* backdrop-filter removido para evitar GPU bugs */
+}
+
+[data-theme="light"] .glass-nav {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile Tweak for Bento */
+@media (max-width: 768px) {
+    .glass-card {
+        border-radius: 1.5rem;
+        padding: 1.5rem !important;
+    }
+    
+    h1 {
+        font-size: 2.5rem !important;
+    }
+
+    .typing-text {
+        font-size: 1rem !important;
+    }
+}
+
+/* Carousel Touch Target */
+.carousel-dot {
+    position: relative;
+}
+.carousel-dot::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    cursor: pointer;
+}
+
+/* Safe Area for iPhones */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .glass-nav {
+        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+        bottom: env(safe-area-inset-bottom);
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        border-radius: 2rem 2rem 0 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+/* Scroll Reveal Animations */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Service Modal — Animated Mockups (one distinct style per service type) */
+.mock-panel {
+    position: relative;
+    padding: 18px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.08), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.07), transparent 55%),
+        radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+    background-size: auto, auto, 16px 16px;
+    background-position: 0 0, 0 0, -6px -6px;
+    overflow: hidden;
+}
+
+.mock-caption {
+    display: block;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(6, 182, 212, 0.85);
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
+
+/* ---------- WORKFLOW (estilo n8n: nós conectados por linhas animadas) ---------- */
+.mock-workflow {
+    position: relative;
+    width: 300px;
+    max-width: 100%;
+    height: 140px;
+    margin: 0 auto;
+}
+.mock-workflow svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wf-path {
+    fill: none;
+    stroke: url(#wfGrad);
+    stroke-width: 2;
+    stroke-dasharray: 6 6;
+    opacity: 0.9;
+    animation: wfFlow 1s linear infinite;
+}
+.wf-path.delay-1 { animation-delay: 0.4s; }
+@keyframes wfFlow { to { stroke-dashoffset: -24; } }
+
+.wf-node {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0e0e14;
+    border: 1.5px solid rgba(6, 182, 212, 0.55);
+    color: #67e8f9;
+    font-size: 14px;
+    transform: translate(-50%, -50%);
+    animation: wfNodePulse 2.4s ease-in-out infinite;
+}
+[data-theme="light"] .wf-node { background: #f1f5f9; }
+.wf-node.n2 { animation-delay: 0.4s; }
+.wf-node.n3 { animation-delay: 0.4s; }
+.wf-node.n4 { animation-delay: 0.8s; border-color: rgba(16, 185, 129, 0.65); color: #34d399; }
+@keyframes wfNodePulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(6, 182, 212, 0); }
+    30% { box-shadow: 0 0 14px rgba(6, 182, 212, 0.55); }
+}
+
+/* ---------- CHAT (bolhas de conversa aparecendo em sequência) ---------- */
+.mock-chat { display: flex; flex-direction: column; gap: 8px; max-width: 280px; width: 100%; }
+.mock-chat-header {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-muted); margin-bottom: 4px;
+}
+.mock-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 11px;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: mockBubbleIn 6s ease-in-out infinite;
+}
+.mock-bubble.in { align-self: flex-start; background: rgba(255, 255, 255, 0.08); border-bottom-left-radius: 4px; }
+.mock-bubble.out { align-self: flex-end; background: rgba(16, 185, 129, 0.18); color: #a7f3d0; border-bottom-right-radius: 4px; animation-delay: 1.6s; }
+.mock-bubble.out.ai { background: rgba(6, 182, 212, 0.18); color: #a5f3fc; animation-delay: 3.2s; }
+@keyframes mockBubbleIn {
+    0% { opacity: 0; transform: translateY(6px); }
+    8%, 85% { opacity: 1; transform: translateY(0); }
+    95%, 100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* ---------- TERMINAL (log de agente rodando) ---------- */
+.mock-terminal { width: 100%; max-width: 320px; background: #050608; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); overflow: hidden; }
+.mock-terminal-bar { display: flex; gap: 5px; padding: 7px 10px; background: rgba(255, 255, 255, 0.03); }
+.mock-terminal-bar span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
+.mock-terminal-bar span:nth-child(1) { background: #ef4444; }
+.mock-terminal-bar span:nth-child(2) { background: #f59e0b; }
+.mock-terminal-bar span:nth-child(3) { background: #22c55e; }
+.mock-terminal-body { padding: 12px 14px; font-family: 'Space Grotesk', monospace; font-size: 10.5px; line-height: 1.9; min-height: 96px; }
+.mock-terminal-body p {
+    opacity: 0; transform: translateY(4px);
+    animation: mockLineIn 4.8s ease-in-out infinite;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mock-terminal-body p:nth-child(1) { animation-delay: 0s; }
+.mock-terminal-body p:nth-child(2) { animation-delay: 0.9s; }
+.mock-terminal-body p:nth-child(3) { animation-delay: 1.8s; }
+.mock-terminal-body p:nth-child(4) { animation-delay: 2.7s; }
+.t-cmd { color: #67e8f9; }
+.t-out { color: var(--text-secondary); }
+.t-alert { color: #fbbf24; }
+.t-ok { color: #34d399; font-weight: 700; }
+@keyframes mockLineIn {
+    0% { opacity: 0; transform: translateY(4px); }
+    6%, 88% { opacity: 1; transform: translateY(0); }
+    96%, 100% { opacity: 0; }
+}
+
+/* ---------- CLOUD / INFRA (migração + gráfico de uptime) ---------- */
+.mock-cloud { width: 100%; max-width: 300px; }
+.mock-cloud-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 16px; }
+.mock-node-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 20px; color: var(--text-secondary); }
+.mock-node-icon span { font-size: 8px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700; }
+.mock-node-icon.glow { color: #fb923c; animation: mockGlow 2.4s ease-in-out infinite; }
+.mock-cloud-arrow { width: 32px; text-align: center; color: rgba(6, 182, 212, 0.65); font-size: 14px; overflow: hidden; }
+.mock-cloud-arrow i { display: inline-block; animation: cloudArrowMove 1.6s ease-in-out infinite; }
+@keyframes cloudArrowMove { 0%, 100% { transform: translateX(-4px); opacity: 0.3; } 50% { transform: translateX(6px); opacity: 1; } }
+@keyframes mockGlow { 0%, 100% { text-shadow: 0 0 0 rgba(251, 146, 60, 0); } 50% { text-shadow: 0 0 14px rgba(251, 146, 60, 0.65); } }
+.mock-uptime { width: 100%; height: 34px; display: block; }
+.mock-uptime polyline { fill: none; stroke: #34d399; stroke-width: 2; stroke-dasharray: 240; stroke-dashoffset: 240; animation: uptimeDraw 3s ease-in-out infinite; }
+@keyframes uptimeDraw { 0% { stroke-dashoffset: 240; } 55%, 100% { stroke-dashoffset: 0; } }
+.mock-uptime-label { display: block; text-align: center; font-size: 9px; color: #34d399; font-weight: 700; letter-spacing: 0.08em; margin-top: 4px; }
+
+/* ---------- SECURITY (escudo com varredura radar + log) ---------- */
+.mock-security { display: flex; align-items: center; gap: 16px; width: 100%; max-width: 300px; }
+.mock-shield {
+    position: relative; width: 56px; height: 56px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(16, 185, 129, 0.08); color: #34d399; font-size: 22px; overflow: hidden;
+}
+.mock-shield::before {
+    content: ''; position: absolute; inset: -8px; border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(16, 185, 129, 0.55), transparent 32%);
+    animation: radarSpin 2.2s linear infinite;
+}
+.mock-shield i { position: relative; z-index: 1; }
+@keyframes radarSpin { to { transform: rotate(360deg); } }
+.mock-security-log { display: flex; flex-direction: column; gap: 6px; font-size: 10.5px; }
+.mock-security-log p {
+    opacity: 0; transform: translateX(-4px); color: var(--text-secondary);
+    animation: mockLineInX 4.5s ease-in-out infinite;
+}
+.mock-security-log p:nth-child(1) { animation-delay: 0s; }
+.mock-security-log p:nth-child(2) { animation-delay: 1s; }
+.mock-security-log p:nth-child(3) { animation-delay: 2s; color: #34d399; font-weight: 700; }
+@keyframes mockLineInX {
+    0% { opacity: 0; transform: translateX(-4px); }
+    10%, 85% { opacity: 1; transform: translateX(0); }
+    95%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wf-path, .wf-node, .mock-bubble, .mock-terminal-body p,
+    .mock-node-icon.glow, .mock-cloud-arrow i, .mock-uptime polyline,
+    .mock-shield::before, .mock-security-log p { animation: none !important; opacity: 1 !important; }
+}
+
+/* ==========================================================================
+   Pano de fundo cinematográfico
+   O canvas fica FIXO atrás do site inteiro e sua sequência de frames é dirigida
+   pela rolagem de toda a página. O conteúdo real (glass-cards, modais, nav)
+   continua exatamente onde estava, agora flutuando sobre a narrativa.
+
+   Nenhum texto vive aqui: todo título e CTA é o HTML real do site.
+   ========================================================================== */
+
+/* O <body> tem bg-black do Tailwind, que taparia o canvas.
+   A cor de fundo migra para o <html> e o body fica transparente. */
+html {
+    background-color: var(--bg-primary);
+}
+
+body {
+    background-color: transparent !important;
+}
+
+/* Container fixo do pano de fundo. Sem altura no fluxo: não empurra nada. */
+#cinematic {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.cine-canvas {
+    position: absolute;
+    inset: -2%;
+    width: 104%;
+    height: 104%;
+    display: block;
+    /* Blur removido do CSS para contornar bug de blocos pixelados no Android Chrome.
+       O efeito agora é aplicado direto no canvas (cinematic.js) */
+}
+
+/* Escurece o pano de fundo para o texto do site manter contraste.
+   Sem isso, os glass-cards ficam ilegíveis sobre cenas claras. */
+/* Calibrado no navegador: valores mais altos apagavam completamente a cena
+   por baixo dos glass-cards, que já são escuros por conta própria. */
+.cine-veil {
+    position: absolute;
+    inset: 0;
+    /* Veu reforcado. O blur do canvas foi removido por causa do bug de
+       blocos pixelados no Android Chrome, entao e o veu que precisa abafar
+       a cena — sem ele, o texto de terminal do video fica legivel e compete
+       com o conteudo real do site. */
+    background:
+        radial-gradient(ellipse at 50% 35%, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.78) 100%),
+        linear-gradient(to bottom, rgba(5, 5, 5, 0.52), rgba(5, 5, 5, 0.7));
+}
+
+/* No tema claro o site é branco: o véu precisa clarear, não escurecer. */
+[data-theme="light"] .cine-veil {
+    background:
+        radial-gradient(ellipse at 50% 40%, rgba(248, 250, 252, 0.72) 0%, rgba(248, 250, 252, 0.92) 100%),
+        linear-gradient(to bottom, rgba(248, 250, 252, 0.85), rgba(248, 250, 252, 0.95));
+}
+
+/* Barra de progresso da narrativa, no topo da viewport */
+.cine-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    z-index: 90;
+    background: linear-gradient(90deg, #06b6d4, #22d3ee);
+    box-shadow: 0 0 18px var(--tech-glow);
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Fallback: sem sequência, o fundo vira um gradiente estático.
+   Aplicado em prefers-reduced-motion e em aparelhos fracos.
+   -------------------------------------------------------------------------- */
+
+#cinematic.cine-static .cine-canvas {
+    display: none;
+}
+
+#cinematic.cine-static {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(6, 182, 212, 0.18) 0%, transparent 60%),
+        var(--bg-primary);
+}
+
+#cinematic.cine-static ~ .cine-progress,
+.cine-static .cine-progress {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cine-progress {
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Profundidade 3D na rolagem
+
+   Os cards inclinam e recuam no eixo Z conforme entram e saem da viewport,
+   criando parallax de profundidade real — não só um fundo bonito.
+
+   Detalhe crítico: .scroll-reveal (index.css) já usa `transform` para o
+   fade-in. Escrever transform por cima mataria o reveal. Por isso as duas
+   animações são compostas via custom properties: o reveal controla
+   --reveal-y, o 3D controla --tilt e --depth, e a regra abaixo soma tudo.
+   ========================================================================== */
+
+.cine-3d .glass-card {
+    /* perspective por elemento evita ter que criar um contexto 3D no <main>,
+       o que quebraria o position: fixed dos modais filhos. */
+    transform:
+        perspective(1400px)
+        translateY(var(--reveal-y, 0px))
+        translateZ(var(--depth, 0px))
+        rotateX(var(--tilt, 0deg));
+    transform-origin: center center;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Especificidade maior que `.scroll-reveal` e `.scroll-reveal.visible`
+   do index.css, senão o translateY(30px) de lá venceria. */
+.cine-3d .glass-card.scroll-reveal {
+    --reveal-y: 30px;
+}
+
+.cine-3d .glass-card.scroll-reveal.visible {
+    --reveal-y: 0px;
+}
+
+/* A transição do reveal continua valendo; tilt e depth são atualizados a
+   cada frame pelo JS, então não recebem transition (ficaria borrachudo). */
+.cine-3d .glass-card {
+    transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Sombra fixa para melhor performance, já que sombra dinâmica + blur trava a GPU */
+.cine-3d .glass-card {
+    box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Sem 3D quando o visitante pediu menos movimento */
+@media (prefers-reduced-motion: reduce) {
+    .cine-3d .glass-card {
+        transform: translateY(var(--reveal-y, 0px));
+        will-change: auto;
+    }
+}
+
+/* ==========================================================================
+   Exploded View — vídeo do usuário (video_final.mp4) em sequência de frames
+   dirigida pela rolagem.
+
+   O trilho (#exploded, 320vh) dá o curso; o palco fixo mostra o frame
+   correspondente ao progresso. Rolar para baixo desmonta o notebook em
+   componentes; rolar para cima remonta.
+
+   Lições desta seção, aprendidas por bissecção no navegador — NÃO reverter:
+   - pin do ScrollTrigger aqui congela o renderizador (loop de layout com o
+     body flex + margin-left calc(50% - 50vw));
+   - sticky quebra com o overflow-x: hidden do body;
+   - progresso vem de scrollY direto, sem GSAP nesta seção.
+   ========================================================================== */
+
+#exploded {
+    position: relative;
+    width: 100%;
+    height: 320vh;
+}
+
+.exp-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    overflow: hidden;
+    background: #060a10; /* cor de fundo do próprio vídeo: sem flash branco */
+}
+
+.exp-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* Sem blur: aqui o vídeo É o protagonista, não textura de fundo. */
+}
+
+/* Vinheta leve só para ancorar o texto à esquerda */
+.exp-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(4, 8, 14, 0.72) 0%, transparent 45%);
+}
+
+/* Texto da seção — branco sempre: o fundo é o vídeo, não o tema da página */
+.exp-copy {
+    position: absolute;
+    left: clamp(1.5rem, 6vw, 5rem);
+    bottom: clamp(2rem, 10vh, 6rem);
+    max-width: 34ch;
+    z-index: 6;
+    /* Adicionando transition para o parallax via JS */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.exp-eyebrow {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #22d3ee;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+.exp-title {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85);
+}
+
+.exp-hint {
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+    #exploded { height: 240vh; }
+
+    .exp-copy {
+        left: 1.25rem;
+        right: 1.25rem;
+        max-width: none;
+    }
+}
+
+/* Sem rolagem dirigida: seção volta ao fluxo com um único frame estático
+   (o JS desenha o frame do meio, já explodido). */
+@media (prefers-reduced-motion: reduce) {
+    #exploded { height: 100vh; }
+
+    .exp-stage {
+        position: relative;
+        inset: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+
+/* Animated Icons (Tech Stack) */
+@keyframes hover-wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-10deg) scale(1.1); } 50% { transform: rotate(10deg) scale(1.1); } 75% { transform: rotate(-5deg) scale(1.1); } }
+@keyframes hover-pulse-glow { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.15); filter: brightness(1.5) drop-shadow(0 0 10px currentColor); } }
+@keyframes hover-float-spin { 0% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(10deg) scale(1.1); } 100% { transform: translateY(0) rotate(0); } }
+.tech-icon-wiggle:hover { animation: hover-wiggle 0.5s ease-in-out; }
+.tech-icon-pulse:hover { animation: hover-pulse-glow 1s infinite alternate; }
+.tech-icon-float:hover { animation: hover-float-spin 1.5s ease-in-out infinite; }
+
+/* Custom Scrollbar for Modals */
+.modal-scroll {
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.modal-scroll::-webkit-scrollbar { width: 6px; }
+.modal-scroll::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+.modal-scroll::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.5); border-radius: 10px; }
+.modal-scroll::-webkit-scrollbar-thumb:hover { background: rgba(6, 182, 212, 0.8); }
+
+
+
+
+/* Otimizações do Tema Claro para sobrescrever classes fixas do HTML */
+[data-theme="light"] .text-white { color: #0f172a !important; }
+[data-theme="light"] .text-gray-300, [data-theme="light"] .text-gray-400, [data-theme="light"] .text-gray-500 { color: #334155 !important; }
+[data-theme="light"] .bg-black\/40, [data-theme="light"] .bg-black\/20, [data-theme="light"] .bg-black\/80, [data-theme="light"] .bg-black { background-color: rgba(255, 255, 255, 0.7) !important; }
+[data-theme="light"] .border-white\/10, [data-theme="light"] .border-white\/5, [data-theme="light"] .border-gray-600, [data-theme="light"] .border-gray-700 { border-color: rgba(0, 0, 0, 0.15) !important; }
+[data-theme="light"] .bg-gray-700 { background-color: #cbd5e1 !important; }
+[data-theme="light"] .glass-card { background: rgba(255, 255, 255, 0.5) !important; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important; }
+[data-theme="light"] .calc-tab:not(.active) { color: #475569 !important; }
+
+
+
+/* Tailwind Fallbacks para classes adicionadas dinamicamente */
+.max-h-\[80vh\] { max-height: 80vh !important; }
+@media (min-width: 640px) {
+    .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .sm\:flex-row { flex-direction: row !important; }
+    .sm\:w-fit { width: fit-content !important; }
+}
+
+
+/* ==========================================================================
+   Legibilidade sobre o fundo cinematografico
+
+   O fundo em video deixou varios rotulos abaixo do minimo AA (4.5:1).
+   Medido no navegador: text-gray-500 caia para 2.5-3.4:1 em cards sobre
+   cenas claras. Estes overrides sobem os cinzas mais escuros do Tailwind
+   sem achatar a hierarquia visual (titulo branco > corpo > rotulo).
+
+   Escopo: apenas dentro de <main>, para nao afetar modais e nav que tem
+   fundo proprio opaco.
+   ========================================================================== */
+
+main .text-gray-500 {
+    color: #9aa3b2;
+}
+
+main .text-gray-400 {
+    color: #b4bcc9;
+}
+
+/* No tema claro o fundo e claro: os cinzas precisam ESCURECER, nao clarear.
+   Sem isto, o override acima tornaria o texto quase invisivel. */
+/* Os cinzas do tema claro sao governados pelas regras !important em
+   ~linha 803/808 deste arquivo, que ja existiam. Ajustar la, nao aqui. */

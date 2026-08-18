@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://allananjos.dev.br/sitemap.xml
