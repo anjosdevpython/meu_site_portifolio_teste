@@ -164,7 +164,7 @@
 
     <!-- Styles (Tailwind pre-compiled at build time — no runtime CDN/JIT compiler in production) -->
     <link rel="stylesheet" href="./assets/css/tailwind.min.css">
-    <link rel="stylesheet" href="./index.css?v=20">
+    <link rel="stylesheet" href="./index.css?v=21">
     <!-- SEO / Open Graph -->
     <meta property="og:title" content="Allan Anjos | Consultoria em TI e Automação">
     <meta property="og:description" content="Especialista em infraestrutura de TI, cibersegurança e automação RPA. Transforme a tecnologia da sua empresa.">
@@ -210,7 +210,7 @@
     </div>
 
     <!-- Main Bento Content -->
-    <main class="w-full max-w-4xl z-10 space-y-4">
+    <main class="w-full max-w-4xl bento-main z-10 space-y-4">
         
         <!-- Profile & Header -->
         <section class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -240,47 +240,70 @@
                 </div>
             </div>
 
-            <div class="md:col-span-8 glass-card p-10 flex flex-col items-center text-center md:items-start md:text-left justify-center space-y-6 animate-fade-in-up delay-100 w-full">
-                <p class="text-theme-secondary text-sm md:text-lg leading-relaxed max-w-xl mx-auto md:mx-0">Foco em <span class="text-theme-primary font-semibold">Automação de Processos (RPA)</span>, <span class="text-theme-primary font-semibold">IA Generativa</span> e <span class="text-theme-primary font-semibold">Infraestrutura</span>. Suporte proativo para tornar sua operação mais eficiente.</p>
-                <div class="pt-2 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 w-full">
+            <div class="md:col-span-8 glass-card p-10 flex flex-col items-center text-center md:items-start md:text-left justify-between space-y-6 animate-fade-in-up delay-100 w-full">
+                <div class="space-y-4 w-full">
+                    <div class="hero-status-pill">
+                        <span class="hero-status-dot"></span>
+                        <span>Disponível para Projetos • Curitiba, SJP &amp; Remoto Brasil</span>
+                    </div>
+                    <p class="text-theme-secondary text-sm md:text-lg leading-relaxed hero-lead-text mx-auto md:mx-0">Foco em <span class="text-theme-primary font-semibold">Automação de Processos (RPA)</span>, <span class="text-theme-primary font-semibold">IA Generativa</span> e <span class="text-theme-primary font-semibold">Infraestrutura</span>. Suporte proativo para eliminar gargalos operacionais e tornar sua empresa mais eficiente.</p>
+                </div>
+                <div class="pt-1 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 w-full">
                     <button onclick="openConsultationModal()" class="w-full sm:w-auto bg-tech-500 text-black px-8 py-4 rounded-full text-sm font-bold flex items-center justify-center gap-3 group hover:bg-tech-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)]">
                         <i class="fas fa-bolt group-hover:scale-110 transition-transform"></i> Acelerar meu Negócio
                     </button>
                     <button onclick="downloadVCard()" class="w-full sm:w-auto glass-button px-8 py-4 rounded-full text-sm font-bold border border-theme-color hover:border-tech-500/50 hover:text-tech-400 transition-all text-theme-primary">Salvar Contato</button>
                     <a href="./curriculo.html" target="_blank" rel="noopener" class="w-full sm:w-auto glass-button px-8 py-4 rounded-full text-sm font-bold border border-theme-color hover:border-tech-500/50 hover:text-tech-400 transition-all text-theme-primary flex items-center justify-center gap-2"><i class="fas fa-file-lines"></i> Currículo</a>
                 </div>
+                <div class="hero-metrics-grid">
+                    <div class="hero-metric-item">
+                        <span class="hero-metric-value">+10 Anos</span>
+                        <span class="hero-metric-label">Experiência em TI &amp; Infra</span>
+                    </div>
+                    <div class="hero-metric-item">
+                        <span class="hero-metric-value">RPA &amp; IA 24/7</span>
+                        <span class="hero-metric-label">n8n, Make &amp; Bots WhatsApp</span>
+                    </div>
+                    <div class="hero-metric-item">
+                        <span class="hero-metric-value">IBSEC SOC</span>
+                        <span class="hero-metric-label">Segurança &amp; Governança</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Trust & Technologies Banner -->
-        <section class="glass-card p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 scroll-reveal">
-            <div class="text-center md:text-left min-w-max">
-                <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold block mb-1">Tecnologias Dominadas</span>
-                <span class="font-tech text-sm text-theme-primary">Automação & Infraestrutura</span>
-            </div>
-            <div class="flex flex-wrap justify-center md:justify-end gap-6 md:gap-8 text-gray-400 opacity-50">
-                <i class="fas fa-project-diagram tech-icon-wiggle text-2xl md:text-3xl hover:text-[#EA4B71] hover:opacity-100 transition-all cursor-pointer" title="n8n (Workflows)" onclick="openTechModal('n8n')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
-                <i class="fas fa-bolt tech-icon-pulse text-2xl md:text-3xl hover:text-[#A644FF] hover:opacity-100 transition-all cursor-pointer" title="Make (Integrações)" onclick="openTechModal('make')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
-                <i class="fas fa-database tech-icon-float text-2xl md:text-3xl hover:text-[#3ECF8E] hover:opacity-100 transition-all cursor-pointer" title="Supabase" onclick="openTechModal('supabase')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
-                <i class="fab fa-linux tech-icon-float text-2xl md:text-3xl hover:text-[#FCC624] hover:opacity-100 transition-all cursor-pointer" title="Servidores Linux" onclick="openTechModal('linux')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
-                <i class="fab fa-windows tech-icon-wiggle text-2xl md:text-3xl hover:text-[#00A4EF] hover:opacity-100 transition-all cursor-pointer" title="Infraestrutura Windows" onclick="openTechModal('windows')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
-                <i class="fab fa-microsoft tech-icon-pulse text-2xl md:text-3xl hover:text-[#D83B01] hover:opacity-100 transition-all cursor-pointer" title="Microsoft 365" onclick="openTechModal('microsoft365')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
-            </div>
-        </section>
+        <!-- Trust & Technologies + Certificações (Side-by-Side on Desktop) -->
+        <div class="bento-trust-grid">
+            <!-- Trust & Technologies Banner -->
+            <section class="glass-card p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-6 scroll-reveal">
+                <div class="text-center md:text-left min-w-max">
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold block mb-1">Tecnologias Dominadas</span>
+                    <span class="font-tech text-sm text-theme-primary">Automação &amp; Infraestrutura</span>
+                </div>
+                <div class="flex flex-wrap justify-center md:justify-end gap-6 md:gap-7 text-gray-400 opacity-50">
+                    <i class="fas fa-project-diagram tech-icon-wiggle text-2xl md:text-3xl hover:text-[#EA4B71] hover:opacity-100 transition-all cursor-pointer" title="n8n (Workflows)" onclick="openTechModal('n8n')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
+                    <i class="fas fa-bolt tech-icon-pulse text-2xl md:text-3xl hover:text-[#A644FF] hover:opacity-100 transition-all cursor-pointer" title="Make (Integrações)" onclick="openTechModal('make')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
+                    <i class="fas fa-database tech-icon-float text-2xl md:text-3xl hover:text-[#3ECF8E] hover:opacity-100 transition-all cursor-pointer" title="Supabase" onclick="openTechModal('supabase')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
+                    <i class="fab fa-linux tech-icon-float text-2xl md:text-3xl hover:text-[#FCC624] hover:opacity-100 transition-all cursor-pointer" title="Servidores Linux" onclick="openTechModal('linux')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
+                    <i class="fab fa-windows tech-icon-wiggle text-2xl md:text-3xl hover:text-[#00A4EF] hover:opacity-100 transition-all cursor-pointer" title="Infraestrutura Windows" onclick="openTechModal('windows')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
+                    <i class="fab fa-microsoft tech-icon-pulse text-2xl md:text-3xl hover:text-[#D83B01] hover:opacity-100 transition-all cursor-pointer" title="Microsoft 365" onclick="openTechModal('microsoft365')" onkeydown="if(event.key === 'Enter' || event.key === ' ') this.onclick()" role="button" tabindex="0"></i>
+                </div>
+            </section>
 
-        <!-- Certificações -->
-        <section class="glass-card p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-4 scroll-reveal">
-            <div class="text-center md:text-left min-w-max">
-                <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold block mb-1">Certificações</span>
-                <span class="font-tech text-sm text-theme-primary">Cibersegurança &amp; Liderança</span>
-            </div>
-            <div class="flex flex-wrap justify-center md:justify-end gap-2 md:ml-auto">
-                <a href="https://certs.ibsec.com.br/?cert_hash=dd97fa5cf41b55c9" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fas fa-shield-halved text-tech-400"></i> Analista SOC · IBSEC</a>
-                <a href="https://certs.ibsec.com.br/?cert_hash=fe01ff892d15f840" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fab fa-linux text-tech-400"></i> Segurança em Linux · IBSEC</a>
-                <a href="https://certs.ibsec.com.br/?cert_hash=7fadbfab9d45fb38" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fas fa-user-shield text-tech-400"></i> Boas Práticas de Cibersegurança · IBSEC</a>
-                <a href="https://conquerplus.com.br/certificates/44c0664e-6e47-4df5-bc8d-299bde288678" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fas fa-users text-tech-400"></i> Formação em Liderança · Conquer</a>
-            </div>
-        </section>
+            <!-- Certificações -->
+            <section class="glass-card p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-4 scroll-reveal">
+                <div class="text-center md:text-left min-w-max">
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold block mb-1">Certificações</span>
+                    <span class="font-tech text-sm text-theme-primary">Cibersegurança &amp; Liderança</span>
+                </div>
+                <div class="flex flex-wrap justify-center md:justify-end gap-2 md:ml-auto">
+                    <a href="https://certs.ibsec.com.br/?cert_hash=dd97fa5cf41b55c9" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fas fa-shield-halved text-tech-400"></i> Analista SOC · IBSEC</a>
+                    <a href="https://certs.ibsec.com.br/?cert_hash=fe01ff892d15f840" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fab fa-linux text-tech-400"></i> Segurança em Linux · IBSEC</a>
+                    <a href="https://certs.ibsec.com.br/?cert_hash=7fadbfab9d45fb38" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fas fa-user-shield text-tech-400"></i> Boas Práticas de Cibersegurança · IBSEC</a>
+                    <a href="https://conquerplus.com.br/certificates/44c0664e-6e47-4df5-bc8d-299bde288678" target="_blank" rel="noopener" title="Verificar certificado" class="cert-badge"><i class="fas fa-users text-tech-400"></i> Formação em Liderança · Conquer</a>
+                </div>
+            </section>
+        </div>
 
         <!-- Skill & Solutions -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -353,12 +376,18 @@
 
                 <div class="mt-8 pt-6 border-t border-white/5">
                     <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-3">Diferenciais da Entrega</p>
-                    <ul class="space-y-3">
+                    <ul class="solucoes-diff-grid">
                         <li class="flex items-center gap-3 text-xs text-gray-300">
                             <i class="fas fa-check-circle text-tech-500 text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full"></i> Consultoria vendor-agnostic
                         </li>
                         <li class="flex items-center gap-3 text-xs text-gray-300">
                             <i class="fas fa-check-circle text-tech-500 text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full"></i> Foco em Escalonamento e ROI
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-gray-300">
+                            <i class="fas fa-check-circle text-tech-500 text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full"></i> Arquitetura Segura &amp; Auditável
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-gray-300">
+                            <i class="fas fa-check-circle text-tech-500 text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full"></i> Contato Direto com o Especialista
                         </li>
                     </ul>
                 </div>
@@ -477,83 +506,92 @@
         </section>
 
         <!-- Simulador de Orçamento -->
-        <section class="glass-card p-6 md:p-10 space-y-8 scroll-reveal mb-8" id="simulador">
+        <section class="glass-card p-6 md:p-10 space-y-6 scroll-reveal mb-8" id="simulador">
             <div class="flex items-center justify-between">
-                <h2 class="font-tech font-bold text-xs uppercase tracking-[0.3em] text-tech-400">Simulador de Investimento</h2>
-                <i class="fas fa-calculator text-tech-500/50"></i>
-            </div>
-            
-            <p class="text-sm text-theme-secondary mb-6 leading-relaxed">Selecione como você prefere estruturar seu projeto e veja uma estimativa em tempo real baseada nos valores de mercado.</p>
-
-            <!-- Toggle: Modelo de Cobrança -->
-            <div class="flex flex-col sm:flex-row gap-2 mb-8 bg-black/40 p-1.5 rounded-xl border border-white/10 w-full sm:w-fit">
-                <button id="calcTypeProject" class="calc-tab active flex-1 text-xs font-bold py-2 px-4 rounded-lg transition-all text-white bg-tech-500/20 border border-tech-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]">Projeto Fechado</button>
-                <button id="calcTypeHour" class="calc-tab flex-1 text-xs font-bold py-2 px-4 rounded-lg transition-all text-gray-400 hover:text-white">Por Hora</button>
-                <button id="calcTypeStack" class="calc-tab flex-1 text-xs font-bold py-2 px-4 rounded-lg transition-all text-gray-400 hover:text-white">Por Stack (Mensal)</button>
+                <div>
+                    <h2 class="font-tech font-bold text-xs uppercase tracking-[0.3em] text-tech-400">Simulador de Investimento</h2>
+                    <p class="text-sm text-theme-secondary mt-2 leading-relaxed">Selecione como você prefere estruturar seu projeto e veja uma estimativa em tempo real baseada nos valores de mercado.</p>
+                </div>
+                <i class="fas fa-calculator text-tech-500/50 text-xl hidden sm:block"></i>
             </div>
 
-            <!-- View: Projeto Fechado — opções injetadas por js/calculator.js a partir de PRICING -->
-            <div id="viewProject" class="calc-view space-y-6">
-                <div>
-                    <label class="block text-xs font-bold text-theme-primary mb-3">Complexidade da Solução</label>
-                    <div id="projOptions" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-theme-primary mb-3">Opcionais (marque quantos quiser)</label>
-                    <div id="projAddons" class="space-y-2"></div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-theme-primary mb-3">Prazo de Entrega</label>
-                    <div id="projUrgency" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
-                </div>
-            </div>
-
-            <!-- View: Por Hora -->
-            <div id="viewHour" class="calc-view hidden space-y-6">
-                <div>
-                    <label class="text-xs font-bold text-theme-primary mb-2 flex justify-between">
-                        <span>Horas Estimadas</span>
-                        <span id="hourValueDisplay" class="text-tech-400 font-bold">10h</span>
-                    </label>
-                    <input type="range" id="hourSlider" min="5" max="160" step="5" value="10"
-                           aria-label="Horas estimadas"
-                           class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-tech-500 outline-none">
-                    <p id="hourRateHint" class="text-[10px] text-gray-500 mt-2"></p>
-                </div>
-            </div>
-
-            <!-- View: Por Stack -->
-            <div id="viewStack" class="calc-view hidden space-y-6">
-                <p class="text-xs text-gray-400 leading-relaxed">Neste formato, você assina um pacote mensal de horas garantidas ou manutenção contínua das suas ferramentas, garantindo que o seu sistema nunca pare.</p>
-                <div id="stackOptions" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-            </div>
-
-            <!-- Total, detalhamento e CTA -->
-            <div class="mt-8 pt-8 border-t border-white/10 space-y-6">
-                <div>
-                    <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-3">Composição do investimento</span>
-                    <ul id="calcBreakdown" class="space-y-2"></ul>
-                </div>
-
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="min-w-0">
-                        <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-1">Estimativa</span>
-                        <div class="flex items-baseline gap-2 flex-wrap">
-                            <span class="text-lg text-gray-400 font-medium">R$</span>
-                            <span id="calcTotal" class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-tech-400 to-tech-600" style="font-feature-settings: 'tnum';">0</span>
-                            <span id="calcSuffix" class="text-base text-gray-400 font-medium"></span>
-                        </div>
-                        <span id="calcTotalMax" class="text-xs text-gray-400 font-medium block mt-1"></span>
-                        <p class="text-[10px] text-gray-500 mt-3 leading-relaxed max-w-sm">Estimativa inicial para orientar a conversa. O valor final é definido após o diagnóstico do seu processo.</p>
+            <div class="simulador-bento-grid">
+                <!-- Coluna Esquerda: Controles e Opções -->
+                <div class="simulador-controls-col space-y-6">
+                    <!-- Toggle: Modelo de Cobrança -->
+                    <div class="flex flex-col sm:flex-row gap-2 bg-black/40 p-1.5 rounded-xl border border-white/10 w-full">
+                        <button id="calcTypeProject" class="calc-tab active flex-1 text-xs font-bold py-2.5 px-4 rounded-lg transition-all text-white bg-tech-500/20 border border-tech-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]">Projeto Fechado</button>
+                        <button id="calcTypeHour" class="calc-tab flex-1 text-xs font-bold py-2.5 px-4 rounded-lg transition-all text-gray-400 hover:text-white">Por Hora</button>
+                        <button id="calcTypeStack" class="calc-tab flex-1 text-xs font-bold py-2.5 px-4 rounded-lg transition-all text-gray-400 hover:text-white">Por Stack (Mensal)</button>
                     </div>
 
-                    <button onclick="window.calculatorModule &amp;&amp; window.calculatorModule.sendToWhatsApp()"
-                            class="xl-button w-full md:w-auto bg-tech-500 text-black font-bold py-4 px-8 rounded-xl hover:bg-tech-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.2)] flex items-center justify-center gap-2 shrink-0 self-stretch md:self-end">
-                        <i class="fab fa-whatsapp text-lg"></i>
-                        Enviar simulação no WhatsApp
-                    </button>
+                    <!-- View: Projeto Fechado — opções injetadas por js/calculator.js a partir de PRICING -->
+                    <div id="viewProject" class="calc-view space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-theme-primary mb-3">Complexidade da Solução</label>
+                            <div id="projOptions" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-primary mb-3">Opcionais (marque quantos quiser)</label>
+                            <div id="projAddons" class="space-y-2"></div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-theme-primary mb-3">Prazo de Entrega</label>
+                            <div id="projUrgency" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- View: Por Hora -->
+                    <div id="viewHour" class="calc-view hidden space-y-6">
+                        <div>
+                            <label class="text-xs font-bold text-theme-primary mb-2 flex justify-between">
+                                <span>Horas Estimadas</span>
+                                <span id="hourValueDisplay" class="text-tech-400 font-bold">10h</span>
+                            </label>
+                            <input type="range" id="hourSlider" min="5" max="160" step="5" value="10"
+                                   aria-label="Horas estimadas"
+                                   class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-tech-500 outline-none">
+                            <p id="hourRateHint" class="text-[10px] text-gray-500 mt-2"></p>
+                        </div>
+                    </div>
+
+                    <!-- View: Por Stack -->
+                    <div id="viewStack" class="calc-view hidden space-y-6">
+                        <p class="text-xs text-gray-400 leading-relaxed">Neste formato, você assina um pacote mensal de horas garantidas ou manutenção contínua das suas ferramentas, garantindo que o seu sistema nunca pare.</p>
+                        <div id="stackOptions" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita (Desktop) / Rodapé (Mobile): Resumo em Tempo Real e CTA -->
+                <div class="simulador-summary-panel">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-tech-400 font-bold">Composição do investimento</span>
+                            <span class="simulador-live-badge"><span class="simulador-live-dot"></span> Tempo Real</span>
+                        </div>
+                        <ul id="calcBreakdown" class="space-y-2.5"></ul>
+                    </div>
+
+                    <div class="simulador-summary-footer">
+                        <div class="min-w-0">
+                            <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold block mb-1">Estimativa</span>
+                            <div class="flex items-baseline gap-2 flex-wrap">
+                                <span class="text-lg text-gray-400 font-medium">R$</span>
+                                <span id="calcTotal" class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-tech-400 to-tech-600" style="font-feature-settings: 'tnum';">0</span>
+                                <span id="calcSuffix" class="text-base text-gray-400 font-medium"></span>
+                            </div>
+                            <span id="calcTotalMax" class="text-xs text-gray-400 font-medium block mt-1"></span>
+                            <p class="text-[10px] text-gray-500 mt-3 leading-relaxed">Estimativa inicial para orientar a conversa. O valor final é definido após o diagnóstico gratuito de 15 min.</p>
+                        </div>
+
+                        <button onclick="window.calculatorModule &amp;&amp; window.calculatorModule.sendToWhatsApp()"
+                                class="xl-button w-full bg-tech-500 text-black font-bold py-4 px-6 rounded-xl hover:bg-tech-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.2)] flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp text-lg"></i>
+                            Enviar simulação no WhatsApp
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -564,22 +602,34 @@
                 <h2 class="font-tech font-bold text-xs uppercase tracking-[0.3em] text-tech-400">Sobre Allan Anjos</h2>
                 <i class="fas fa-circle-question text-tech-500/50"></i>
             </div>
-            <div class="space-y-5 text-sm text-theme-secondary leading-relaxed">
-                <div>
-                    <h4 class="font-bold text-theme-primary mb-1">Quem sou eu?</h4>
+            <div class="faq-bento-grid text-sm text-theme-secondary leading-relaxed">
+                <div class="faq-bento-item">
+                    <div class="faq-bento-header">
+                        <span class="faq-bento-icon"><i class="fas fa-user-shield"></i></span>
+                        <h4 class="font-bold text-theme-primary">Quem sou eu?</h4>
+                    </div>
                     <p>Sou o Allan Anjos. Estou em TI desde 2015 e, nos últimos anos, migrei o foco para automação de processos (RPA) e IA generativa, sem largar a base sólida que construí em infraestrutura e cibersegurança, no suporte técnico e no Exército Brasileiro.</p>
                 </div>
-                <div>
-                    <h4 class="font-bold text-theme-primary mb-1">O que eu faço na prática?</h4>
+                <div class="faq-bento-item">
+                    <div class="faq-bento-header">
+                        <span class="faq-bento-icon"><i class="fas fa-gears"></i></span>
+                        <h4 class="font-bold text-theme-primary">O que eu faço na prática?</h4>
+                    </div>
                     <p>Mapeio gargalos operacionais e construo robôs e agentes de IA com n8n, Make, Zapier e Playwright que assumem tarefas repetitivas, do atendimento no WhatsApp à alimentação do CRM. Também cuido de infraestrutura (Linux, Windows, Docker) e segurança, com certificações em Analista SOC e Segurança em Linux pela IBSEC.</p>
                 </div>
-                <div>
-                    <h4 class="font-bold text-theme-primary mb-1">Onde eu atendo?</h4>
+                <div class="faq-bento-item">
+                    <div class="faq-bento-header">
+                        <span class="faq-bento-icon"><i class="fas fa-location-dot"></i></span>
+                        <h4 class="font-bold text-theme-primary">Onde eu atendo?</h4>
+                    </div>
                     <p>Presencial e híbrido em Curitiba e São José dos Pinhais, e remoto para qualquer empresa no Brasil. A maior parte dos meus projetos de automação roda 100% à distância.</p>
                 </div>
-                <div>
-                    <h4 class="font-bold text-theme-primary mb-1">Como falar comigo?</h4>
-                    <p>O mais rápido é pelo WhatsApp ou pode também preencher um formulário através do botão "Acelerar meu Negócio" no topo da página. Também dá pra me chamar no LinkedIn.</p>
+                <div class="faq-bento-item">
+                    <div class="faq-bento-header">
+                        <span class="faq-bento-icon"><i class="fas fa-comments"></i></span>
+                        <h4 class="font-bold text-theme-primary">Como falar comigo?</h4>
+                    </div>
+                    <p>O mais rápido é pelo WhatsApp, pelo chat interativo aqui no canto da tela ou preenchendo o diagnóstico gratuito no botão "Acelerar meu Negócio" no topo da página. Também dá pra me chamar no LinkedIn.</p>
                 </div>
             </div>
         </section>
@@ -702,7 +752,7 @@
     <!-- Libraries (self-hosted: no third-party runtime dependency) -->
     <script src="./assets/vendor/particles/particles.min.js" defer></script>
     <script src="./assets/vendor/qrcodejs/qrcode.min.js" defer></script>
-    <script type="module" src="./app.js?v=20" defer></script>
+    <script type="module" src="./app.js?v=21" defer></script>
 
     <!-- Camada cinematográfica. GSAP e Lenis são servidos localmente:
          o site não usa CDN em nenhum outro ponto. -->

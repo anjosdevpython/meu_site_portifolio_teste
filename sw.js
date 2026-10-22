@@ -1,4 +1,4 @@
-const CACHE_NAME = 'allan-anjos-v20';
+const CACHE_NAME = 'allan-anjos-v21';
 const ASSETS = [
   './',
   './index.html',

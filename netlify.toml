@@ -7,7 +7,7 @@ redirects = []
   [functions."*"]
 
 [build]
-publish = "C:\\Users\\allan.anjos\\Downloads\\deploy-6a4e65acc015fe53e6bbead3"
+publish = "."
 publishOrigin = "config"
 
   [build.environment]

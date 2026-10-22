@@ -33,7 +33,7 @@ import {
 import { initTilt } from './js/tilt.js';
 import { toggleAudio, playHoverTick, playModalSwoosh } from './js/audio.js';
 import { initCalculator } from './js/calculator.js';
-import { initAgentPet } from './js/agent-pet.js?v=20';
+import { initAgentPet } from './js/agent-pet.js?v=21';
 
 // Bind to window for inline HTML onclick handlers
 window.installPWA = installPWA;
