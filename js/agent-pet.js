@@ -1,6 +1,6 @@
 // js/agent-pet.js
 // ==========================================================================
-// Mini Hacker Allan — Interactive Companion & Portfolio Agent (OpenPets V2)
+// Allan Anjos — Interactive Companion & Portfolio Agent (OpenPets V2)
 // ==========================================================================
 
 import { playHoverTick, playModalSwoosh } from './audio.js';
@@ -48,7 +48,7 @@ const KNOWLEDGE_BASE = [
     {
         keywords: ['preco', 'preço', 'valor', 'custo', 'quanto', 'orcamento', 'orçamento', 'investimento', 'hora', 'mensal', 'stack'],
         reaction: 'review',
-        reply: 'Trabalhamos em 3 formatos transparentes:\n• **Projeto Fechado:** Automação Simples (a partir de R$ 1.500), Migração/Nuvem (R$ 2.800+) ou Assistente IA (R$ 4.500+)\n• **Por Hora:** R$ 220/h\n• **Stack Mensal:** a partir de R$ 1.600/mês.',
+        reply: 'Trabalho em 3 formatos transparentes:\n• **Projeto Fechado:** Automação Simples (a partir de R$ 1.500), Migração/Nuvem (R$ 2.800+) ou Assistente IA (R$ 4.500+)\n• **Por Hora:** R$ 220/h\n• **Stack Mensal:** a partir de R$ 1.600/mês.',
         actions: [
             { label: 'Abrir Simulador', action: 'scroll:#simulador' },
             { label: 'Pedir Diagnóstico Gratuito', action: 'modal:consultation' }
@@ -75,10 +75,10 @@ const KNOWLEDGE_BASE = [
     {
         keywords: ['quem', 'allan', 'experiencia', 'experiência', 'curitiba', 'presencial', 'remoto', 'onde', 'curriculo', 'currículo'],
         reaction: 'waving',
-        reply: 'O **Allan Anjos** está em TI desde 2015 (com passagem pelo Exército Brasileiro e suporte crítico) e hoje é especialista em Automação (RPA) e IA Generativa. Atende presencial/híbrido em **Curitiba e São José dos Pinhais** e 100% remoto em todo o Brasil!',
+        reply: 'Sou o **Allan Anjos**! Estou em TI desde 2015 (com passagem pelo Exército Brasileiro e suporte crítico) e hoje sou especialista em Automação (RPA) e IA Generativa. Atendo presencial/híbrido em **Curitiba e São José dos Pinhais** e 100% remoto em todo o Brasil!',
         actions: [
-            { label: 'Ver Currículo', action: 'link:./curriculo.html' },
-            { label: 'Chamar no WhatsApp', action: 'whatsapp:Olá Allan! Conversei com seu Mini Agente no site e gostaria de bater um papo.' }
+            { label: 'Ver meu Currículo', action: 'link:./curriculo.html' },
+            { label: 'Me chamar no WhatsApp', action: 'whatsapp:Olá Allan! Conversei com você pelo chat do site e gostaria de bater um papo.' }
         ]
     },
     {
@@ -93,10 +93,10 @@ const KNOWLEDGE_BASE = [
     {
         keywords: ['contato', 'falar', 'reuniao', 'reunião', 'agendar', 'diagnostico', 'diagnóstico', 'humano'],
         reaction: 'jumping',
-        reply: 'Você pode agendar uma **Discovery Call gratuita de 15 minutos** agora mesmo ou chamar o Allan direto no WhatsApp!',
+        reply: 'Você pode agendar uma **Discovery Call gratuita de 15 minutos** comigo agora mesmo ou me chamar direto no WhatsApp!',
         actions: [
             { label: 'Agendar Diagnóstico VIP', action: 'modal:consultation' },
-            { label: 'Abrir WhatsApp', action: 'whatsapp:Olá Allan! Vim pelo Mini Hacker do seu site e quero conversar sobre um projeto.' }
+            { label: 'Abrir meu WhatsApp', action: 'whatsapp:Olá Allan! Vim pelo seu site e quero conversar sobre um projeto.' }
         ]
     }
 ];
@@ -136,14 +136,14 @@ export function initAgentPet() {
 
     root.innerHTML = `
         <!-- Attached Chat Panel -->
-        <div class="allan-pet-chat" id="allanPetChat" role="dialog" aria-label="Chat com Mini Hacker Allan" aria-hidden="true">
+        <div class="allan-pet-chat" id="allanPetChat" role="dialog" aria-label="Chat com Allan Anjos" aria-hidden="true">
             <div class="allan-pet-chat-header">
                 <div class="allan-pet-chat-header-left">
                     <div class="allan-pet-chat-avatar" aria-hidden="true">
                         <span class="allan-pet-mini-icon"></span>
                     </div>
                     <div class="allan-pet-chat-meta">
-                        <span class="allan-pet-chat-title">Mini Hacker Allan</span>
+                        <span class="allan-pet-chat-title">Allan Anjos</span>
                         <span class="allan-pet-chat-pill" id="allanPetStatusPill">
                             <span class="allan-pet-chat-dot"></span>
                             <span id="allanPetStatusText">Online • IA & RPA</span>
@@ -163,8 +163,8 @@ export function initAgentPet() {
             <div class="allan-pet-chat-messages" id="allanPetMessages">
                 <div class="allan-pet-msg bot">
                     <div class="allan-pet-msg-bubble">
-                        Fala! Eu sou o <strong>Mini Hacker Allan</strong> 👾<br>
-                        Acompanho seu cursor, rodo no código do site e sei tudo sobre as automações, agentes de IA e infraestrutura do Allan. Como posso ajudar?
+                        Fala! Eu sou o <strong>Allan Anjos</strong> 👋<br>
+                        Posso te mostrar na prática como automatizo processos com n8n e Agentes de IA, cuido da sua infraestrutura ou simular o investimento do seu projeto. Como posso te ajudar?
                     </div>
                 </div>
             </div>
@@ -187,7 +187,7 @@ export function initAgentPet() {
         <div class="allan-pet-bubble hidden" id="allanPetBubble" role="status" aria-live="polite">
             <div class="allan-pet-bubble-header">
                 <span class="allan-pet-bubble-dot" id="allanPetBubbleDot"></span>
-                <span class="allan-pet-bubble-label" id="allanPetBubbleLabel">Mini Allan</span>
+                <span class="allan-pet-bubble-label" id="allanPetBubbleLabel">Allan Anjos</span>
                 <button type="button" class="allan-pet-bubble-close" id="allanPetBubbleClose" aria-label="Fechar balão">&times;</button>
             </div>
             <div class="allan-pet-bubble-text" id="allanPetBubbleText"></div>
@@ -196,7 +196,7 @@ export function initAgentPet() {
 
         <!-- Floating Quick Action Buttons (OpenPets style) -->
         <div class="allan-pet-buttons">
-            <button type="button" class="allan-pet-launcher is-chat" id="allanPetChatToggle" title="Conversar com Mini Hacker Allan" aria-label="Conversar com Mini Hacker Allan">
+            <button type="button" class="allan-pet-launcher is-chat" id="allanPetChatToggle" title="Conversar com Allan Anjos" aria-label="Conversar com Allan Anjos">
                 <i class="fas fa-comment-dots"></i>
                 <span class="allan-pet-unread-dot" id="allanPetUnreadDot"></span>
             </button>
@@ -206,14 +206,14 @@ export function initAgentPet() {
         </div>
 
         <!-- Pet Hitbox & Sprite -->
-        <div class="allan-pet-hitbox" id="allanPetHitbox" title="Arraste ou clique no Mini Hacker Allan">
+        <div class="allan-pet-hitbox" id="allanPetHitbox" title="Arraste ou clique para falar com Allan Anjos">
             <div class="allan-pet-shadow"></div>
             <div class="allan-pet-shell" id="allanPetShell">
-                <div class="allan-pet-sprite" id="allanPetSprite" role="img" aria-label="Mini Hacker Allan animado"></div>
+                <div class="allan-pet-sprite" id="allanPetSprite" role="img" aria-label="Allan Anjos animado"></div>
             </div>
             <div class="allan-pet-nametag">
                 <span class="allan-pet-nametag-dot"></span>
-                <span>MINI ALLAN</span>
+                <span>ALLAN ANJOS</span>
             </div>
         </div>
     `;
@@ -380,7 +380,7 @@ export function initAgentPet() {
         if (isChatOpen && !options.forceWhenChatOpen) return;
 
         const {
-            label = 'Mini Allan',
+            label = 'Allan Anjos',
             reaction = null,
             duration = 6500,
             actions = []
@@ -619,12 +619,12 @@ export function initAgentPet() {
         if (isWalking) return;
         const target = Math.abs(petOffsetX) > 60 ? 0 : -Math.min(180, Math.floor(window.innerWidth * 0.35));
         walkToOffset(target, () => {
-            showBubble('Monitorando gargalos operacionais... Tudo 100% por aqui! 🚀', {
-                label: 'Status do Agente',
+            showBubble('Mapeando gargalos operacionais... Tudo 100% por aqui! 🚀', {
+                label: 'Allan Anjos',
                 reaction: 'running',
                 duration: 4500,
                 actions: [
-                    { label: 'Abrir Chat', action: 'chat:open' }
+                    { label: 'Falar comigo', action: 'chat:open' }
                 ]
             });
         });
@@ -687,7 +687,7 @@ export function initAgentPet() {
             actions: [
                 { label: 'Simular Orçamento', action: 'scroll:#simulador' },
                 { label: 'Agendar Diagnóstico VIP', action: 'modal:consultation' },
-                { label: 'Falar no WhatsApp', action: 'whatsapp:Olá Allan! Conversei com o Mini Hacker no seu site e gostaria de tirar uma dúvida.' }
+                { label: 'Me chamar no WhatsApp', action: 'whatsapp:Olá Allan! Conversei com você pelo chat do site e gostaria de tirar uma dúvida.' }
             ]
         };
     }
@@ -701,7 +701,7 @@ export function initAgentPet() {
 
         // Pet starts coding/thinking while generating reply
         setState('running', 1500);
-        if (statusText) statusText.textContent = 'Processando resposta...';
+        if (statusText) statusText.textContent = 'Digitando...';
 
         setTimeout(() => {
             const response = findBestResponse(trimmed);
@@ -798,15 +798,15 @@ export function initAgentPet() {
                 el: document.getElementById('exploded'),
                 id: 'exploded',
                 reaction: 'running',
-                label: 'Arquitetura Viva',
-                text: 'Do servidor Linux até o agente de IA no WhatsApp: cada camada otimizada! ⚡',
+                label: 'Allan Anjos',
+                text: 'Do servidor Linux até o agente de IA no WhatsApp: otimizo cada camada da sua operação! ⚡',
                 actions: [{ label: 'Como funciona?', action: 'chat:open' }]
             },
             {
                 el: document.getElementById('simulador'),
                 id: 'simulador',
                 reaction: 'review',
-                label: 'Simulador de ROI',
+                label: 'Allan Anjos',
                 text: 'Quer ajuda pra escolher o melhor formato pro seu projeto? Me chama aqui! 🧮',
                 actions: [
                     { label: 'Tirar dúvida', action: 'chat:open' },
@@ -855,9 +855,9 @@ export function initAgentPet() {
     setState('idle');
     setTimeout(() => {
         showBubble(
-            'Olá! Sou o <strong>Mini Allan</strong> 👾 Posso tirar dúvidas sobre automações, IA ou simular seu projeto!',
+            'Olá! Eu sou o <strong>Allan Anjos</strong> 👋 Posso tirar dúvidas sobre automações, IA ou simular seu projeto!',
             {
-                label: 'Mini Hacker Allan',
+                label: 'Allan Anjos',
                 reaction: 'waving',
                 duration: 8000,
                 actions: [
