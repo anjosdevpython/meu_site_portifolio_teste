@@ -1,13 +1,12 @@
-const CACHE_NAME = 'allan-anjos-v17';
+const CACHE_NAME = 'allan-anjos-v18';
 const ASSETS = [
   './',
   './index.html',
   './index.css',
-  './cinematic.css',
   './app.js',
   './js/calculator.js',
+  './js/agent-pet.js',
   './cinematic.js',
-  './exploded.css',
   './exploded.js',
   './manifest.json',
   './assets/css/tailwind.min.css',
@@ -19,6 +18,7 @@ const ASSETS = [
   './assets/vendor/lenis/lenis.min.js',
   './assets/img/allan-foto-320.webp',
   './assets/img/allan-foto-320.jpg',
+  './assets/pet/spritesheet.webp',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];

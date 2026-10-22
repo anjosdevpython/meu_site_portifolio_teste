@@ -33,6 +33,7 @@ import {
 import { initTilt } from './js/tilt.js';
 import { toggleAudio, playHoverTick, playModalSwoosh } from './js/audio.js';
 import { initCalculator } from './js/calculator.js';
+import { initAgentPet } from './js/agent-pet.js';
 
 // Bind to window for inline HTML onclick handlers
 window.installPWA = installPWA;
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerServiceWorker();
     initTilt();
     initCalculator();
+    initAgentPet();
 
     // Setup global audio listeners for interactions
     document.querySelectorAll('button, a').forEach(el => {
