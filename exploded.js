@@ -74,7 +74,7 @@
     var currentFrame = -1;
 
     function framePath(i) {
-        return FRAME_PATH + 'frame-' + String(i + 1).padStart(4, '0') + '.jpg';
+        return FRAME_PATH + 'frame-' + String(i + 1).padStart(4, '0') + (isMobile ? '.webp' : '.jpg');
     }
 
     // Duas ondas, como no cinematic: 1 a cada 5 primeiro (sequência já
