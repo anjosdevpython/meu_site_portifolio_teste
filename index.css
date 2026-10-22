@@ -1498,3 +1498,74 @@ main .text-gray-400 {
         max-height: calc(100vh - 210px);
     }
 }
+
+/* Mobile Bottom Sheet & Smart Scroll Auto-Tuck */
+.allan-pet-backdrop {
+    display: none;
+}
+
+.allan-pet-sheet-handle {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .allan-pet-root {
+        --pet-scale: 0.42;
+        right: 8px;
+        bottom: 94px;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease;
+    }
+
+    /* Encolhe e recolhe discretamente na lateral durante a rolagem no celular */
+    .allan-pet-root.is-mobile-scrolling {
+        transform: translate3d(calc(var(--pet-offset-x) + 32px), var(--pet-offset-y), 0) scale(0.76);
+        opacity: 0.55;
+    }
+
+    .allan-pet-root.is-mobile-scrolling .allan-pet-bubble,
+    .allan-pet-root.is-mobile-scrolling .allan-pet-buttons {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.85);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    /* Backdrop escuro ao abrir a gaveta de chat no mobile */
+    .allan-pet-root[data-chat-open="true"] .allan-pet-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(4px);
+        z-index: 18;
+        pointer-events: auto;
+    }
+
+    /* Chat como Bottom Sheet fixo no mobile */
+    .allan-pet-chat {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 92px;
+        width: auto;
+        max-width: none;
+        height: min(440px, calc(100vh - 130px));
+        max-height: calc(100vh - 130px);
+        border-radius: 24px;
+        z-index: 25;
+    }
+
+    .allan-pet-sheet-handle {
+        display: block;
+        width: 38px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.22);
+        margin: 8px auto 2px;
+        flex-shrink: 0;
+    }
+
+    [data-theme="light"] .allan-pet-sheet-handle {
+        background: rgba(15, 23, 42, 0.2);
+    }
+}

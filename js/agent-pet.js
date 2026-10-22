@@ -27,6 +27,28 @@ const SPRITE_CONFIG = {
     gazeIdleResetMs: 1400
 };
 
+// Curated 16-sector gaze map (clockwise from 0 = Up) that exclusively selects
+// front-facing and 3/4-profile frames so the character NEVER turns his back
+// (avoiding row 10 cols 0, 1, 4 which show the back of the hood).
+const GAZE_SECTOR_MAP = [
+    { row: 10, col: 7 }, // 0: Up (front alert)
+    { row: 9,  col: 0 }, // 1: Up-Up-Right
+    { row: 9,  col: 1 }, // 2: Up-Right
+    { row: 9,  col: 2 }, // 3: Right-Up-Right
+    { row: 9,  col: 3 }, // 4: Right
+    { row: 9,  col: 4 }, // 5: Right-Down-Right
+    { row: 9,  col: 5 }, // 6: Down-Right
+    { row: 9,  col: 6 }, // 7: Down-Down-Right
+    { row: 0,  col: 2 }, // 8: Down (front gentle)
+    { row: 10, col: 6 }, // 9: Down-Down-Left (front-left)
+    { row: 10, col: 5 }, // 10: Down-Left (3/4 left)
+    { row: 10, col: 5 }, // 11: Left-Down-Left (3/4 left)
+    { row: 10, col: 3 }, // 12: Left (profile left)
+    { row: 10, col: 5 }, // 13: Left-Up-Left (3/4 left)
+    { row: 10, col: 6 }, // 14: Up-Left (front-left)
+    { row: 10, col: 7 }  // 15: Up-Up-Left (front alert)
+];
+
 const QUICK_SUGGESTIONS = [
     { label: '🤖 Automação WhatsApp', query: 'Como funciona a automação no WhatsApp?' },
     { label: '💰 Quanto custa?', query: 'Qual o valor de um projeto ou consultoria?' },
@@ -108,6 +130,7 @@ export function initAgentPet() {
     let stateTimeout = null;
     let bubbleTimeout = null;
     let gazeResetTimeout = null;
+    let mobileScrollTimeout = null;
     let roamInterval = null;
     let walkAnimFrame = null;
     let isChatOpen = false;
@@ -135,8 +158,12 @@ export function initAgentPet() {
     root.setAttribute('data-flip-x', 'false');
 
     root.innerHTML = `
-        <!-- Attached Chat Panel -->
+        <!-- Mobile Backdrop when Chat Bottom Sheet is open -->
+        <div class="allan-pet-backdrop" id="allanPetBackdrop"></div>
+
+        <!-- Attached Chat Panel / Mobile Bottom Sheet -->
         <div class="allan-pet-chat" id="allanPetChat" role="dialog" aria-label="Chat com Allan Anjos" aria-hidden="true">
+            <div class="allan-pet-sheet-handle" aria-hidden="true"></div>
             <div class="allan-pet-chat-header">
                 <div class="allan-pet-chat-header-left">
                     <div class="allan-pet-chat-avatar" aria-hidden="true">
@@ -221,6 +248,7 @@ export function initAgentPet() {
     document.body.appendChild(root);
 
     // Elements
+    const backdropEl = document.getElementById('allanPetBackdrop');
     const chatEl = document.getElementById('allanPetChat');
     const chatToggleBtn = document.getElementById('allanPetChatToggle');
     const chatCloseBtn = document.getElementById('allanPetChatClose');
@@ -259,7 +287,6 @@ export function initAgentPet() {
 
         if (animated) {
             spriteEl.style.animation = 'none';
-            // Reflow to restart finite animations cleanly
             void spriteEl.offsetWidth;
             spriteEl.style.animation = `allan-pet-frames ${durationMs}ms steps(${frames}) ${iterations}`;
         } else {
@@ -286,7 +313,6 @@ export function initAgentPet() {
             statusPill.classList.toggle('is-busy', newState === 'running' || newState === 'review');
         }
 
-        // Handle directional flip compensation
         let effectiveState = newState;
         if (isFlipped) {
             if (newState === 'running-left') effectiveState = 'running-right';
@@ -316,14 +342,14 @@ export function initAgentPet() {
     }
 
     // ----------------------------------------------------------------------
-    // 16-Sector 360° Cursor Gaze Tracking (OpenPets V2 Rows 9 & 10)
+    // 16-Sector 360° Cursor Gaze Tracking (Always Front/3/4 Face Visible)
     // ----------------------------------------------------------------------
     function updateCursorGaze(clientX, clientY) {
         if (currentState !== 'idle' || isDragging || isWalking) return;
 
         const rect = hitboxEl.getBoundingClientRect();
         const anchorX = rect.left + rect.width * 0.5;
-        const anchorY = rect.top + rect.height * 0.44; // Eye/glasses level
+        const anchorY = rect.top + rect.height * 0.44;
 
         const dx = clientX - anchorX;
         const dy = clientY - anchorY;
@@ -343,11 +369,10 @@ export function initAgentPet() {
             sector = (SPRITE_CONFIG.gazeSectorCount - sector) % SPRITE_CONFIG.gazeSectorCount;
         }
 
-        const row = sector < 8 ? 9 : 10;
-        const col = sector < 8 ? sector : sector - 8;
+        const cell = GAZE_SECTOR_MAP[sector] || GAZE_SECTOR_MAP[0];
 
         root.setAttribute('data-gaze-index', String(sector));
-        applySpriteVars(row, col, col, 1, 0, 1, false);
+        applySpriteVars(cell.row, cell.col, cell.col, 1, 0, 1, false);
 
         if (gazeResetTimeout) clearTimeout(gazeResetTimeout);
         gazeResetTimeout = setTimeout(() => {
@@ -371,6 +396,19 @@ export function initAgentPet() {
         if (isDragging) return;
         if (e.pointerType === 'touch') return;
         updateCursorGaze(e.clientX, e.clientY);
+    }, { passive: true });
+
+    // ----------------------------------------------------------------------
+    // Smart Mobile Auto-Tuck During Scroll
+    // ----------------------------------------------------------------------
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth >= 768 || isChatOpen || isDragging) return;
+
+        root.classList.add('is-mobile-scrolling');
+        if (mobileScrollTimeout) clearTimeout(mobileScrollTimeout);
+        mobileScrollTimeout = setTimeout(() => {
+            root.classList.remove('is-mobile-scrolling');
+        }, 550);
     }, { passive: true });
 
     // ----------------------------------------------------------------------
@@ -469,7 +507,6 @@ export function initAgentPet() {
                 return;
             }
             const t = Math.min(1, (now - startTime) / duration);
-            // Smooth ease-in-out
             const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
             petOffsetX = startX + delta * eased;
             applyPetTransform();
@@ -493,7 +530,6 @@ export function initAgentPet() {
         const candidates = [0, -90, -170, maxLeft];
         const nextX = candidates[Math.floor(Math.random() * candidates.length)];
         if (Math.abs(nextX - petOffsetX) < 35) {
-            // Do a coding or review animation in place
             const poses = ['running', 'review', 'waving', 'jumping'];
             const pick = poses[Math.floor(Math.random() * poses.length)];
             setState(pick, 3000);
@@ -514,6 +550,7 @@ export function initAgentPet() {
         initialOffsetY = petOffsetY;
         hitboxEl.setPointerCapture(e.pointerId);
         root.classList.add('is-dragging');
+        root.classList.remove('is-mobile-scrolling');
     });
 
     hitboxEl.addEventListener('pointermove', (e) => {
@@ -557,7 +594,6 @@ export function initAgentPet() {
             setState('jumping');
             playHoverTick();
         } else {
-            // Simple click on pet: toggle chat or wave!
             playModalSwoosh();
             if (!isChatOpen) {
                 toggleChat(true);
@@ -577,12 +613,12 @@ export function initAgentPet() {
     function toggleChat(forceState) {
         isChatOpen = typeof forceState === 'boolean' ? forceState : !isChatOpen;
         root.setAttribute('data-chat-open', isChatOpen ? 'true' : 'false');
+        root.classList.remove('is-mobile-scrolling');
         chatEl.setAttribute('aria-hidden', isChatOpen ? 'false' : 'true');
 
         if (isChatOpen) {
             hideBubble();
             unreadDot.classList.add('hidden');
-            // Bring pet back near bottom-right if it was dragged far away so chat fits on screen
             if (petOffsetY < -160 || petOffsetX < -(window.innerWidth - 340)) {
                 petOffsetY = 0;
                 petOffsetX = Math.max(petOffsetX, -Math.max(0, window.innerWidth - 380));
@@ -604,6 +640,12 @@ export function initAgentPet() {
         e.stopPropagation();
         toggleChat(false);
     });
+
+    if (backdropEl) {
+        backdropEl.addEventListener('click', () => {
+            toggleChat(false);
+        });
+    }
 
     poseBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -699,7 +741,6 @@ export function initAgentPet() {
         appendMessage(trimmed, 'user');
         inputEl.value = '';
 
-        // Pet starts coding/thinking while generating reply
         setState('running', 1500);
         if (statusText) statusText.textContent = 'Digitando...';
 
@@ -788,6 +829,90 @@ export function initAgentPet() {
     }
 
     // ----------------------------------------------------------------------
+    // Live Simulator (Budget Calculator) Reactions
+    // ----------------------------------------------------------------------
+    function setupCalculatorLiveReactions() {
+        const simEl = document.getElementById('simulador');
+        if (!simEl) return;
+
+        const calcComments = {
+            'projType:simples': {
+                reaction: 'jumping',
+                text: '<strong>Automação Simples:</strong> excelente para eliminar tarefas manuais rápidas conectando 1 ou 2 ferramentas! ⚡'
+            },
+            'projType:ia': {
+                reaction: 'running',
+                text: '<strong>Assistente IA:</strong> treino a IA com os documentos da sua empresa (RAG) e integro no seu WhatsApp 24/7! 🤖'
+            },
+            'projType:nuvem': {
+                reaction: 'review',
+                text: '<strong>Migração & Nuvem:</strong> alta disponibilidade Linux/Docker com foco total em segurança e performance! 🛡️'
+            },
+            'addon:dashboard': {
+                reaction: 'review',
+                text: 'Com <strong>Dashboard em tempo real</strong> você acompanha cada lead e hora economizada pela automação! 📊'
+            },
+            'addon:crm': {
+                reaction: 'jumping',
+                text: '<strong>Integração com CRM:</strong> os leads qualificados no WhatsApp já caem direto no seu funil de vendas! 📈'
+            },
+            'addon:sla': {
+                reaction: 'waving',
+                text: 'Com <strong>SLA Mensal</strong> eu monitoro e mantenho todas as suas APIs rodando sem dor de cabeça. 🔒'
+            },
+            'urgency:tranquilo': {
+                reaction: 'jumping',
+                text: 'Prazo flexível ganha <strong>10% de desconto</strong> encaixando na minha agenda! 💡'
+            },
+            'urgency:urgente': {
+                reaction: 'running',
+                text: 'Precisa rápido? Coloco seu projeto como <strong>prioridade na fila</strong> para entrega expressa! 🔥'
+            },
+            'stackType:essencial': {
+                reaction: 'review',
+                text: '<strong>Stack Essencial:</strong> manutenção contínua e até 10h/mês garantidas para sua operação. ⚙️'
+            },
+            'stackType:premium': {
+                reaction: 'jumping',
+                text: '<strong>Stack Premium (CaaS):</strong> monitoramento 24/7 + evolução contínua dos seus robôs e IA! 🏆'
+            }
+        };
+
+        simEl.addEventListener('change', (e) => {
+            const target = e.target;
+            if (!target) return;
+
+            let key = null;
+            if (target.name === 'projType' || target.name === 'urgency' || target.name === 'stackType') {
+                key = `${target.name}:${target.value}`;
+            } else if (target.classList.contains('proj-addon') && target.checked) {
+                key = `addon:${target.value}`;
+            }
+
+            if (key && calcComments[key]) {
+                const c = calcComments[key];
+                showBubble(c.text, {
+                    label: 'Allan Anjos • Simulador',
+                    reaction: c.reaction,
+                    duration: 5200,
+                    actions: [{ label: 'Tirar dúvida no chat', action: 'chat:open' }]
+                });
+            }
+        });
+
+        const hourTab = document.getElementById('calcTypeHour');
+        if (hourTab) {
+            hourTab.addEventListener('click', () => {
+                showBubble('No modelo <strong>Por Hora (R$ 220/h)</strong> você contrata pacotes sob medida para consultoria ou ajustes pontuais! ⏱️', {
+                    label: 'Allan Anjos • Simulador',
+                    reaction: 'review',
+                    duration: 5000
+                });
+            });
+        }
+    }
+
+    // ----------------------------------------------------------------------
     // Contextual Section & Event Triggers
     // ----------------------------------------------------------------------
     const seenSections = new Set();
@@ -838,7 +963,6 @@ export function initAgentPet() {
         });
     }
 
-    // Hook into Service & Tech clicks so the pet reacts live!
     document.querySelectorAll('[onclick*="openServiceModal"]').forEach(btn => {
         btn.addEventListener('click', () => {
             setState('running', 3200);
@@ -879,8 +1003,8 @@ export function initAgentPet() {
     }, 18000);
 
     setupScrollContextualReactions();
+    setupCalculatorLiveReactions();
 
-    // Expose controller on window for external triggers/debugging
     window.allanPet = {
         setState,
         showBubble,
